@@ -90,15 +90,14 @@ syn region   ocamlNone transparent matchgroup=ocamlEncl start="\[|" matchgroup=o
 " Comments and documentation
 syn keyword  ocamlTodo contained TODO FIXME XXX NOTE
 
-syn cluster ocamlCommentLike contains=ocamlComment,ocamlCommentInDoc,ocamlDocumentation,ocamlStopComment
+syn cluster ocamlCommentLike contains=ocamlComment,ocamlDocumentation,ocamlStopComment
+
+syn region   ocamlComment start="(\*" end="\*)" contains=@Spell,ocamlComment,ocamlTodo
 
 if !exists('odoc_syntax_loading')
   " Load odoc syntax only when we are not in a *.mld file
-  syn region   ocamlComment start="(\*" end="\*)" contains=@Spell,ocamlComment,ocamlTodo
   syn include  @ocamlOdoc syntax/odoc.vim
-  syn region   ocamlDocumentation matchgroup=ocamlDocEncl start="(\*\*[*)]\@!" end="\*)" contains=@ocamlOdoc,ocamlCommentInDoc,@Spell,ocamlTodo
-else
-  syn region   ocamlCommentInDoc start="(\*" end="\*)" contains=@Spell,ocamlTodo,ocamlCommentInDoc
+  syn region   ocamlDocumentation matchgroup=ocamlDocEncl start="(\*\*[*)]\@!" end="\*)" contains=@ocamlOdoc,ocamlComment,@Spell,ocamlTodo
 endif
 
 syn match    ocamlStopComment "(\*\*/\*\*)"
